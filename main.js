@@ -51,4 +51,8 @@ client.on("message", (msg) => {
 	}
 });
 
-client.login(process.env.TOKEN);
+try {
+	client.login(process.env.TOKEN);
+} catch {
+	client.login(process.argv[2]);
+}

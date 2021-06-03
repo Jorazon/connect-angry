@@ -3,7 +3,7 @@ FROM node:14
 LABEL Name=connectangry
 LABEL Version=0.0.1
 
-ENV TOKEN="bot token"
+ENV TOKEN "bot token"
 
 WORKDIR /data
 
@@ -13,4 +13,6 @@ RUN npm install
 
 COPY . .
 
-CMD [ "node", "main.js"]
+
+
+ENTRYPOINT ["node", "main.js"]
