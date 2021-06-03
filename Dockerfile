@@ -1,9 +1,16 @@
-FROM jorazon/connect-angry:latest
-LABEL Name=connectangry Version=0.0.1
-RUN apt-get -y update
+FROM node:14
+
+LABEL Name=connectangry
+LABEL Version=0.0.1
+
 ENV TOKEN="bot token"
 
-COPY ["package.json", "package-lock.json*", "./"]
+WORKDIR /data
+
+COPY package*.json ./
+
 RUN npm install
 
-CMD ["sh", "-c", "/usr/games/fortune -a | cowsay"]
+COPY . .
+
+CMD [ "node", "main.js"]
