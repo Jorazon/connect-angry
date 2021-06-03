@@ -1,0 +1,13 @@
+{
+	"name": "connect-angry",
+	"version": "1.0.0",
+	"description": "Connect Four bot for Discord",
+	"author": "Jorazon",
+	"main": "main.js",
+	"scripts": {
+		"start": "node main.js"
+	},
+	"dependencies": {
+		"discord.js": "^12.5.3"
+	}
+}
