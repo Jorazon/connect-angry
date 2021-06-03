@@ -23,3 +23,7 @@
 **/secrets.dev.yaml
 **/values.dev.yaml
 README.md
+
+*.psd
+angry-face_1f620.png
+pouting-face_1f621.png
