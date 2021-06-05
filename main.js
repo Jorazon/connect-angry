@@ -1,7 +1,4 @@
-"use strict";
-
 //modules
-const { strict } = require("assert");
 const Discord = require("discord.js");
 
 //local
@@ -10,49 +7,102 @@ const jsonio = require("./jsonio");
 const client = new Discord.Client();
 
 const optionsPath = "options.json";
-var options = jsonio.readjson(optionsPath);
+var options;
+
+/**
+ * Load options from json file
+ */
+function loadOptions() {
+	options = jsonio.readjson(optionsPath);
+}
+/**
+ * Save and reload options
+ */
+function saveOptions() {
+	jsonio.writejson(options, optionsPath);
+	loadOptions();
+}
+
+loadOptions();
 
 client.on("ready", () => {
 	console.log(`Logged in as ${client.user.tag}!`);
 });
 
-client.on("message", (msg) => {
-	if (msg.author.bot) return; //ignore bot messages
-	var prefix = options.guilds[msg.guild.id]; //get guild prefix or default (!)
-	if (!msg.mentions.has(client.user) && !msg.content.startsWith(prefix))
-		return; //ignore messages that dont tag the bot or start with the guild prefix
+/**
+ * Get guild prefix
+ * @param {string} guildID
+ * @returns {string} guild prefix or default if unset
+ */
+function getPrefix(guildID) {
+	return options.guilds[guildID] || options.guilds.default;
+}
 
-	//if bot is mentioned and message contains 'prefix'
-	if (msg.mentions.has(client.user) && msg.content.includes("prefix")) {
-		//if author is a server admin and message contains 'reset' reset the prefix
-		if (
-			msg.member.hasPermission(Discord.Permissions.FLAGS.ADMINISTRATOR) &&
-			msg.content.includes("reset")
-		) {
-			options.guilds[msg.guild.id] = options.guilds["default"]; //reset the prefix
-			jsonio.writejson(options, optionsPath); //save options
-			options = jsonio.readjson(optionsPath); //reload options
-		} else {
-			msg.channel.send(`My prefix is ${prefix}`); //tell the prefix
-		}
+client.on("message", (message) => {
+	if (message.author.bot) return; //ignore bot messages
+
+	var prefix = getPrefix(message.guild.id);
+
+	//ignore messages that don't tag the bot or start with the guild prefix
+	if (
+		!message.mentions.has(client.user) &&
+		!message.content.startsWith(prefix)
+	)
+		return;
+
+	//if bot is mentioned send prefix info as DM
+	if (message.mentions.has(client.user)) {
+		message.author.createDM().then((authorDMChannel) => {
+			authorDMChannel.send(
+				`My prefix in ${message.guild.name} is ${prefix}`,
+			);
+			authorDMChannel.delete();
+		});
 		return;
 	}
 
 	//remove prefix from the message content
-	msg.content = msg.content.substring(prefix.length);
+	message.content = message.content.substring(prefix.length);
 
 	//split on spaces to get params (0 should be command, rest arguments)
-	var params = msg.content.split(" ");
+	var params = message.content.split(" ");
 
 	switch (params[0]) {
 		case "ping":
-			msg.channel.send("pong!");
+			{
+				message.channel.send("pong!");
+			}
+			break;
+		case "help":
+		case "prefix":
+			{
+				//check if author is a server admin
+				if (
+					message.guild
+						.member(message.author)
+						.permissions.has("ADMINISTRATOR")
+				) {
+					if (params.length > 1) {
+						//check that a new prefix was provided
+						options.guilds[message.guild.id] = params[1];
+						saveOptions();
+						prefix = getPrefix(message.guild.id);
+						message.channel.send(`New prefix set as ${prefix}`);
+					}
+				}
+			}
+			break;
+		case "connect":
+			{
+				message.channel.send("not yet implemented"); //TODO
+			}
 			break;
 	}
 });
 
+//try login with docker env variable TOKEN. If that fails try with node parameter
 try {
-	client.login(process.env.TOKEN);
+	client.login(process.argv[2] || process.env.TOKEN);
 } catch {
-	client.login(process.argv[2]);
+	console.log("Invalid bot token");
 }
