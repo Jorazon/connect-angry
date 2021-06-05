@@ -26,7 +26,7 @@ function saveOptions() {
 loadOptions();
 
 client.on("ready", () => {
-	console.log(`Logged in as ${client.user.tag}!`);
+	console.log(`Logged in as ${client.user.tag}`);
 });
 
 /**
@@ -67,10 +67,15 @@ client.on("message", (message) => {
 	//split on spaces to get params (0 should be command, rest arguments)
 	var params = message.content.split(" ");
 
+	console.log(message.createdTimestamp);
+	console.log(Date.now());
+
 	switch (params[0]) {
 		case "ping":
 			{
-				message.channel.send("Pong!");
+				message.channel.send(
+					`Pong! ${Date.now() - message.createdTimestamp}ms`,
+				);
 			}
 			break;
 		case "help":

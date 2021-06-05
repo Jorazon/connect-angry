@@ -5,7 +5,7 @@
 	"author": "Jorazon",
 	"main": "main.js",
 	"scripts": {
-		"start": "node main.js"
+		"start": "node main.js bottoken"
 	},
 	"dependencies": {
 		"discord.js": "^12.5.3"
