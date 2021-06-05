@@ -1,0 +1,10 @@
+{
+	"user": {
+		"help": "sends you this message.",
+		"connect": "Starts a game of angry connect.",
+		"ping": "Pong!"
+	},
+	"admin": {
+		"prefix": "88312435592687616"
+	}
+}

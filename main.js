@@ -70,7 +70,7 @@ client.on("message", (message) => {
 	switch (params[0]) {
 		case "ping":
 			{
-				message.channel.send("pong!");
+				message.channel.send("Pong!");
 			}
 			break;
 		case "help":
