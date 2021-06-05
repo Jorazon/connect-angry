@@ -5,6 +5,6 @@
 		"ping": "Pong!"
 	},
 	"admin": {
-		"prefix": "88312435592687616"
+		"prefix": "Sets a new prefix. Stops at the first space."
 	}
 }
