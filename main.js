@@ -105,7 +105,7 @@ client.on("message", (message) => {
 	}
 });
 
-//try login with docker env variable TOKEN. If that fails try with node parameter
+//try login with docker env variable TOKEN or node parameter
 try {
 	client.login(process.argv[2] || process.env.TOKEN);
 } catch {
