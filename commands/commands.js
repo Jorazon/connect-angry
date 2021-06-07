@@ -1,3 +1,3 @@
-import prefix from "../commands/prefix";
+const { ping } = require("../commands/ping");
 
-export default Object.assign({}, prefix);
+module.exports = Object.assign({ ping });
