@@ -1,10 +1,10 @@
 //modules
-const Discord = require("discord.js");
+import { Client } from "discord.js";
 
 //local
-const { readjson, writejson } = require("./jsonio");
+import { readjson, writejson } from "./jsonio";
 
-const client = new Discord.Client();
+const client = new Client();
 
 const optionsPath = "options.json";
 var options;
