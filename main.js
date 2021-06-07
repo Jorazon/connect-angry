@@ -1,10 +1,11 @@
 //modules
-import { Client } from "discord.js";
+const Discord = require("discord.js");
 
 //local
-import { readjson, writejson } from "./jsonio";
+const { readjson, writejson } = require("./jsonio");
+const { ping, prefix } = require("./commands/commands");
 
-const client = new Client();
+const client = new Discord.Client();
 
 const optionsPath = "options.json";
 var options;
@@ -41,12 +42,12 @@ function getPrefix(guildID) {
 client.on("message", (message) => {
 	if (message.author.bot) return; //ignore bot messages
 
-	var prefix = getPrefix(message.guild.id);
+	var guildPrefix = getPrefix(message.guild.id);
 
 	//ignore messages that don't tag the bot or start with the guild prefix
 	if (
 		!message.mentions.has(client.user) &&
-		!message.content.startsWith(prefix)
+		!message.content.startsWith(guildPrefix)
 	)
 		return;
 
@@ -54,7 +55,7 @@ client.on("message", (message) => {
 	if (message.mentions.has(client.user)) {
 		message.author.createDM().then((authorDMChannel) => {
 			authorDMChannel.send(
-				`My prefix in ${message.guild.name} is ${prefix}`,
+				`My prefix in ${message.guild.name} is ${guildPrefix}`,
 			);
 			authorDMChannel.delete();
 		});
@@ -62,7 +63,7 @@ client.on("message", (message) => {
 	}
 
 	//remove prefix from the message content
-	message.content = message.content.substring(prefix.length);
+	message.content = message.content.substring(guildPrefix.length);
 
 	//split on spaces to get params (0 should be command, rest arguments)
 	var params = message.content.split(" ");
@@ -70,9 +71,7 @@ client.on("message", (message) => {
 	switch (params[0]) {
 		case "ping":
 			{
-				message.channel.send(
-					`Pong! ${Date.now() - message.createdTimestamp}ms`,
-				);
+				ping(client, message);
 			}
 			break;
 		case "help":
@@ -84,12 +83,14 @@ client.on("message", (message) => {
 						.member(message.author)
 						.permissions.has("ADMINISTRATOR")
 				) {
+					//check that a new prefix was provided
 					if (params.length > 1) {
-						//check that a new prefix was provided
 						options.guilds[message.guild.id] = params[1];
 						saveOptions();
-						prefix = getPrefix(message.guild.id);
-						message.channel.send(`New prefix set as ${prefix}`);
+						guildPrefix = getPrefix(message.guild.id);
+						message.channel.send(
+							`New prefix set as ${guildPrefix}`,
+						);
 					}
 				}
 			}
