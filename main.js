@@ -67,9 +67,6 @@ client.on("message", (message) => {
 	//split on spaces to get params (0 should be command, rest arguments)
 	var params = message.content.split(" ");
 
-	console.log(message.createdTimestamp);
-	console.log(Date.now());
-
 	switch (params[0]) {
 		case "ping":
 			{
