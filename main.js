@@ -3,7 +3,7 @@ const Discord = require("discord.js");
 
 //local
 const { readjson, writejson } = require("./jsonio");
-const { ping, prefix } = require("./commands/commands");
+const { ping } = require("./commands/commands");
 
 const client = new Discord.Client();
 

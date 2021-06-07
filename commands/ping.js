@@ -6,10 +6,14 @@ const Discord = require("discord.js");
  * @param {Discord.message} message
  */
 function ping(client, message) {
-	message.channel.send(
-		//`Pong! ${Date.now() - message.createdTimestamp}ms`,
-		`Pong! ${client.ws.ping}ms`,
-	);
+	message.channel.send("Pong!").then(async (pingMessage) => {
+		pingMessage.edit(
+			`Pong! Client: ${
+				pingMessage.createdTimestamp - message.createdTimestamp
+			}ms, API: ${client.ws.ping}ms`,
+		);
+		console.log("pinged");
+	});
 }
 
-module.exports = { ping };
+exports.ping = ping;
