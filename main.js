@@ -2,7 +2,7 @@
 const Discord = require("discord.js");
 
 //local
-const jsonio = require("./jsonio");
+const { readjson, writejson } = require("./jsonio");
 
 const client = new Discord.Client();
 
@@ -13,13 +13,13 @@ var options;
  * Load options from json file
  */
 function loadOptions() {
-	options = jsonio.readjson(optionsPath);
+	options = readjson(optionsPath);
 }
 /**
  * Save and reload options
  */
 function saveOptions() {
-	jsonio.writejson(options, optionsPath);
+	writejson(options, optionsPath);
 	loadOptions();
 }
 
@@ -106,8 +106,6 @@ client.on("message", (message) => {
 });
 
 //try login with docker env variable TOKEN or node parameter
-try {
-	client.login(process.argv[2] || process.env.TOKEN);
-} catch {
+client.login(process.env.TOKEN || process.argv[2]).catch(() => {
 	console.log("Invalid bot token");
-}
+});
