@@ -1,10 +1,10 @@
 {
-	"user": {
+	"User": {
 		"help": "Sends you this message.",
 		"connect": "Starts a game of angry connect.",
 		"ping": "Pong! Tells how long the bot takes to receive your messages."
 	},
-	"admin": {
+	"Admin": {
 		"prefix": "Sets a new prefix. Stops at the first space."
 	}
 }

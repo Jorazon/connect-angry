@@ -3,7 +3,7 @@ const Discord = require("discord.js");
 
 //local
 const { readjson, writejson } = require("./jsonio");
-const { ping, prefix } = require("./commands/commands");
+const { ping, prefix, help } = require("./commands/commands");
 
 const client = new Discord.Client();
 
@@ -74,6 +74,10 @@ client.on("message", (message) => {
 			}
 			break;
 		case "help":
+			{
+				help(message);
+			}
+			break;
 		case "prefix":
 			{
 				prefix(
