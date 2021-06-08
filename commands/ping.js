@@ -2,8 +2,8 @@ const Discord = require("discord.js");
 
 /**
  * Sends ping response
- * @param {Discord.client} client
- * @param {Discord.message} message
+ * @param {Discord.Client} client
+ * @param {Discord.Message} message
  */
 function ping(client, message) {
 	message.channel.send("Pong!").then(async (pingMessage) => {
@@ -16,4 +16,4 @@ function ping(client, message) {
 	});
 }
 
-exports.ping = ping;
+module.exports = { ping };
