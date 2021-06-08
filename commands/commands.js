@@ -1,3 +1,4 @@
 const { ping } = require("../commands/ping");
+const { prefix } = require("../commands/prefix");
 
-exports.ping = ping;
+module.exports = { ping, prefix };

@@ -3,7 +3,7 @@ const Discord = require("discord.js");
 
 //local
 const { readjson, writejson } = require("./jsonio");
-const { ping } = require("./commands/commands");
+const { ping, prefix } = require("./commands/commands");
 
 const client = new Discord.Client();
 
@@ -23,13 +23,6 @@ function saveOptions() {
 	writejson(options, optionsPath);
 	loadOptions();
 }
-
-loadOptions();
-
-client.on("ready", () => {
-	console.log(`Logged in as ${client.user.tag}`);
-});
-
 /**
  * Get guild prefix
  * @param {string} guildID
@@ -38,6 +31,12 @@ client.on("ready", () => {
 function getPrefix(guildID) {
 	return options.guilds[guildID] || options.guilds.default;
 }
+
+loadOptions();
+
+client.on("ready", () => {
+	console.log(`Logged in as ${client.user.tag}`);
+});
 
 client.on("message", (message) => {
 	if (message.author.bot) return; //ignore bot messages
@@ -77,22 +76,14 @@ client.on("message", (message) => {
 		case "help":
 		case "prefix":
 			{
-				//check if author is a server admin
-				if (
-					message.guild
-						.member(message.author)
-						.permissions.has("ADMINISTRATOR")
-				) {
-					//check that a new prefix was provided
-					if (params.length > 1) {
-						options.guilds[message.guild.id] = params[1];
-						saveOptions();
-						guildPrefix = getPrefix(message.guild.id);
-						message.channel.send(
-							`New prefix set as ${guildPrefix}`,
-						);
-					}
-				}
+				prefix(
+					message,
+					params,
+					guildPrefix,
+					getPrefix,
+					options,
+					saveOptions,
+				);
 			}
 			break;
 		case "connect":
