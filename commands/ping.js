@@ -12,7 +12,6 @@ function ping(client, message) {
 				pingMessage.createdTimestamp - message.createdTimestamp
 			}ms, API: ${client.ws.ping}ms`,
 		);
-		console.log("pinged");
 	});
 }
 
