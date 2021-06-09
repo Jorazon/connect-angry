@@ -5,6 +5,6 @@
 		"ping": "Pong! Tells how long the bot takes to receive your messages."
 	},
 	"Admin": {
-		"prefix": "Sets a new prefix. Stops at the first space."
+		"prefix": "Sets a new prefix. No spaces."
 	}
 }
