@@ -6,7 +6,7 @@ const players = {
 	YELLOW: 2,
 };
 
-//0-10 keycap emojis
+//0-10 and blank keycap emojis
 const numbers = [
 	"0\uFE0F\u20E3",
 	"1\uFE0F\u20E3",
@@ -19,6 +19,7 @@ const numbers = [
 	"8\uFE0F\u20E3",
 	"9\uFE0F\u20E3",
 	"\uD83D\uDD1F",
+	"\uD83D\uDFE6",
 ];
 
 //emojis for White Circle, Pouting Face and Angry Face
@@ -40,12 +41,20 @@ const template = {
 function connect(message) {
 	let cat = "";
 	for (let y = 0; y < 7; ++y) {
+		cat += numbers[11];
 		for (let x = 0; x < 7; ++x) {
-			cat +=
-				y == 6
-					? numbers[x + 1]
-					: emojis[(Math.random() * emojis.length) | 0];
+			switch (y) {
+				case 0:
+					cat += numbers[x + 11];
+					break;
+				case 7:
+					cat += numbers[x + 1];
+					break;
+				default:
+					cat += emojis[(Math.random() * emojis.length) | 0];
+			}
 		}
+		cat += numbers[11];
 		cat += "\n";
 	}
 
