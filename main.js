@@ -3,7 +3,7 @@ const Discord = require("discord.js");
 
 //local
 const { readjson, writejson } = require("./jsonio");
-const { ping, prefix, help } = require("./commands/commands");
+const { ping, prefix, help, connect } = require("./commands/commands");
 
 const client = new Discord.Client();
 
@@ -92,7 +92,7 @@ client.on("message", (message) => {
 			break;
 		case "connect":
 			{
-				message.channel.send("not yet implemented"); //TODO
+				connect(message);
 			}
 			break;
 	}
