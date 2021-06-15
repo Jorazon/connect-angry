@@ -25,14 +25,12 @@ const numbers = [
 //emojis for White Circle, Pouting Face and Angry Face
 const emojis = ["\u26AA", "\uD83D\uDE21", "\uD83D\uDE20"];
 
-/*
 const template = {
-	id,
-	board,
-	turn,
-	timestamp,
+	id: "0",
+	board: [],
+	turn: 1,
+	timestamp: 0,
 };
-*/
 
 /**
  *
