@@ -1,8 +1,16 @@
-version: '3.4'
+version: "3.9"
 
 services:
-  connectangry:
-    image: connectangry
-    build:
-      context: .
-      dockerfile: ./Dockerfile
+    connectangry:
+        image: connect-angry
+        container_name: connect-angry
+        volumes:
+            - connectangryvolume:/data
+        environment:
+            - TOKEN=${TOKEN}
+        build:
+            context: .
+            dockerfile: ./Dockerfile
+
+volumes:
+    connectangryvolume:

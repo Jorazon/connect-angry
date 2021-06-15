@@ -7,7 +7,9 @@ ENV TOKEN "bot token"
 
 RUN apk update && apk upgrade && apk add npm
 
-WORKDIR /data
+WORKDIR "/data"
+
+VOLUME [ "/data" ]
 
 COPY package*.json ./
 
