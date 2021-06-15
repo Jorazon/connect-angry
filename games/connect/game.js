@@ -40,21 +40,16 @@ const template = {
  */
 function connect(message) {
 	let cat = "";
-	for (let y = 0; y < 8; ++y) {
-		cat += numbers[11];
+	for (let y = 0; y < 7; ++y) {
 		for (let x = 0; x < 7; ++x) {
 			switch (y) {
-				case 0:
-					cat += numbers[11];
-					break;
-				case 7:
+				case 6:
 					cat += numbers[x + 1];
 					break;
 				default:
 					cat += emojis[(Math.random() * emojis.length) | 0];
 			}
 		}
-		cat += numbers[11];
 		cat += "\n";
 	}
 
