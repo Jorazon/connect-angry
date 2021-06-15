@@ -39,11 +39,21 @@ const template = {
  */
 function connect(message) {
 	let cat = "";
-	numbers.concat(emojis).forEach((key) => {
-		cat += key;
-		cat += " ";
+	for (let y = 0; y < 7; ++y) {
+		for (let x = 0; x < 7; ++x) {
+			cat +=
+				y == 6
+					? numbers[x + 1]
+					: emojis[(Math.random() * emojis.length) | 0];
+		}
+		cat += "\n";
+	}
+
+	message.channel.send(cat).then(async (testmessage) => {
+		for (let i = 1; i < 8; ++i) {
+			testmessage.react(numbers[i]);
+		}
 	});
-	message.channel.send(cat);
 }
 
 module.exports = { connect };
