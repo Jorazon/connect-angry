@@ -42,10 +42,10 @@ function connect(message) {
 	let cat = "";
 	for (let y = 0; y < 7; ++y) {
 		cat += numbers[11];
-		for (let x = 0; x < 7; ++x) {
+		for (let x = 0; x < 8; ++x) {
 			switch (y) {
 				case 0:
-					cat += numbers[x + 11];
+					cat += numbers[11];
 					break;
 				case 7:
 					cat += numbers[x + 1];
