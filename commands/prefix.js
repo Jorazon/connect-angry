@@ -1,4 +1,5 @@
-import Discord from Discord;
+import Discord from "discord.js";
+import { readjson } from "./jsonio.js";
 
 /**
  * Update prefix
@@ -19,5 +20,7 @@ export default function prefix(message, params, guildPrefix, getPrefix, options,
 			guildPrefix = getPrefix(message.guild.id);
 			message.channel.send(`New prefix set as ${guildPrefix}`);
 		}
+	} else {
+		message.channel.send(readjson("../assets/strings.json").commandNoPermission);
 	}
 }

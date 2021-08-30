@@ -1,4 +1,4 @@
-import Discord from Discord;
+import Discord from "discord.js";
 
 /**
  * Sends ping response
@@ -13,4 +13,4 @@ export default function ping(client, message) {
 			}ms`,
 		);
 	});
-};
+}

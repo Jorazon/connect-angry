@@ -1,9 +1,6 @@
-//modules
-const Discord = require("discord.js");
-
-//local
-const { readjson, writejson } = require("./jsonio");
-const { ping, prefix, help, connect } = require("./commands/commands");
+import Discord from "discord.js";
+import { readjson, writejson } from "./jsonio.js";
+import { refreshCommands, ping, prefix, connect } from "../commands/commands.js";
 
 const client = new Discord.Client();
 
@@ -36,6 +33,8 @@ loadOptions();
 
 client.on("ready", () => {
 	console.log(`Logged in as ${client.user.tag}`);
+	console.log(process.env.REFRESHCOMMANDS);
+	if (process.env.REFRESHCOMMANDS == "true") refreshCommands(client);
 });
 
 client.on("message", (message) => {
@@ -44,18 +43,12 @@ client.on("message", (message) => {
 	var guildPrefix = getPrefix(message.guild.id);
 
 	//ignore messages that don't tag the bot or start with the guild prefix
-	if (
-		!message.mentions.has(client.user) &&
-		!message.content.startsWith(guildPrefix)
-	)
-		return;
+	if (!message.mentions.has(client.user) && !message.content.startsWith(guildPrefix)) return;
 
 	//if bot is mentioned send prefix info as DM
 	if (message.mentions.has(client.user)) {
 		message.author.createDM().then((authorDMChannel) => {
-			authorDMChannel.send(
-				`My prefix in ${message.guild.name} is ${guildPrefix}`,
-			);
+			authorDMChannel.send(`My prefix in ${message.guild.name} is ${guildPrefix}`);
 			authorDMChannel.delete();
 		});
 		return;
@@ -80,14 +73,7 @@ client.on("message", (message) => {
 			break;
 		case "prefix":
 			{
-				prefix(
-					message,
-					params,
-					guildPrefix,
-					getPrefix,
-					options,
-					saveOptions,
-				);
+				prefix(message, params, guildPrefix, getPrefix, options, saveOptions);
 			}
 			break;
 		case "connect":
