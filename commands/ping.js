@@ -3,10 +3,10 @@ const Discord = require("discord.js");
 /**
  * Sends ping response
  * @param {Discord.Client} client
- * @param {Discord.Message} message
+ * @param {Discord.Interaction} interaction
  */
-function ping(client, message) {
-	message.channel.send("Pong!").then(async (pingMessage) => {
+function ping(client, interaction) {
+	interaction.reply("Pong!").then(async (pingMessage) => {
 		pingMessage.edit(
 			`Pong! Client: ${pingMessage.createdTimestamp - message.createdTimestamp}ms, API: ${
 				client.ws.ping

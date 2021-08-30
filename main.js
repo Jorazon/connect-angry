@@ -2,41 +2,29 @@ const { Client, Intents } = require("discord.js");
 const { readjson, writejson } = require("./jsonio.js");
 const { refreshCommands, ping, connect } = require("./commands/commands.js");
 
+//get bot token from docker env variable TOKEN or node first parameter
+const token = process.env.TOKEN || process.argv[2];
+
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 
 client.on("ready", () => {
 	console.log(`Logged in as ${client.user.tag}`);
-	console.log(process.env.REFRESHCOMMANDS);
-	if (process.env.REFRESHCOMMANDS == "true") refreshCommands(client);
+	//refresh slash commands if REFRESHCOMMANDS is setto "true" in docker-compose.yml
+	if (process.env.REFRESHCOMMANDS == "true" || process.argv[3] == "true") {
+		refreshCommands(client, token);
+	}
 });
 
-client.on("message", (message) => {
-	if (message.author.bot) return; //ignore bot messages
+client.on("interactionCreate", async (interaction) => {
+	if (!interaction.isCommand()) return;
 
-	var guildPrefix = getPrefix(message.guild.id);
-
-	//ignore messages that don't tag the bot or start with the guild prefix
-	if (!message.mentions.has(client.user) && !message.content.startsWith(guildPrefix)) return;
-
-	//if bot is mentioned send prefix info as DM
-	if (message.mentions.has(client.user)) {
-		message.author.createDM().then((authorDMChannel) => {
-			authorDMChannel.send(`My prefix in ${message.guild.name} is ${guildPrefix}`);
-			authorDMChannel.delete();
-		});
-		return;
+	if (interaction.commandName === "ping") {
+		await interaction.reply("Pong!");
 	}
-
-	//remove prefix from the message content
-	message.content = message.content.substring(guildPrefix.length);
-
-	//split on spaces to get params (0 should be command, rest arguments)
-	var params = message.content.split(" ");
-
 	switch (params[0]) {
 		case "ping":
 			{
-				ping(client, message);
+				ping(client, interaction);
 			}
 			break;
 		case "connect":
@@ -47,7 +35,7 @@ client.on("message", (message) => {
 	}
 });
 
-//try login with docker env variable TOKEN or node parameter
-client.login(process.env.TOKEN || process.argv[2]).catch(() => {
+//login
+client.login(token).catch(() => {
 	console.log("Invalid bot token");
 });

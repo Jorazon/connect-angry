@@ -1,17 +1,17 @@
 const Discord = require("discord.js");
-const { REST } = require("@discordjs/rest");
-const { Routes } = require("discord-api-types/v9");
+const axios = require("axios");
 const ping = require("./ping");
 const connect = require("../games/connect/game");
 const { readjson } = require("../jsonio");
+
 /**
  * refreshes slash commands
- * @param {Discord.Client} client
+ * @param {Discord.Client} client bot client
+ * @param {string} token bot token
  */
+async function refreshCommands(client, token) {
+	const url = `https://discord.com/api/v8/applications/${client.application.id}/guilds/503840746005200916/commands`;
 
-const rest = new REST({ version: "9" }).setToken(process.env.TOKEN || process.argv[2]);
-
-async function refreshCommands(client) {
 	const commands = [
 		{
 			name: "ping",
@@ -19,17 +19,26 @@ async function refreshCommands(client) {
 		},
 	];
 	//const commands = readjson("./commands.json");
+
+	const headers = {
+		headers: {
+			Authorization: `Bot ${token}`,
+			"Content-type": "application/json",
+		},
+	};
+
 	try {
 		console.log("Started refreshing application (/) commands.");
-
-		await rest.put(
-			Routes.applicationGuildCommand(client.application.id, "503840746005200916"),
-			{ body: commands },
-		);
+		for (let command in commands) {
+			axios.default
+				.post(url, command, headers)
+				.then((response) => console.log(response.data))
+				.catch((error) => console.log(error.response));
+		}
 
 		console.log("Successfully reloaded application (/) commands.");
 	} catch (error) {
-		console.error(error);
+		console.error("bruh");
 	}
 }
 

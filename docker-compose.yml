@@ -6,9 +6,7 @@ services:
         container_name: connect-angry
         environment:
             - TOKEN=${TOKEN}
+            - REFRESHCOMMANDS="true"
         build:
             context: .
             dockerfile: ./Dockerfile
-
-volumes:
-    connectangryvolume:
