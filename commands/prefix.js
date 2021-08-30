@@ -1,4 +1,4 @@
-const Discord = require("discord.js");
+import Discord from Discord;
 
 /**
  * Update prefix
@@ -9,7 +9,7 @@ const Discord = require("discord.js");
  * @param {*} options
  * @param {Function} saveOptions
  */
-function prefix(message, params, guildPrefix, getPrefix, options, saveOptions) {
+export default function prefix(message, params, guildPrefix, getPrefix, options, saveOptions) {
 	//check if author is a server admin
 	if (message.guild.member(message.author).permissions.has("ADMINISTRATOR")) {
 		//check that a new prefix was provided
@@ -21,5 +21,3 @@ function prefix(message, params, guildPrefix, getPrefix, options, saveOptions) {
 		}
 	}
 }
-
-module.exports = { prefix };
