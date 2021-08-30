@@ -1,13 +1,16 @@
-import Discord from "discord.js";
-import { Routes } from "discord-api-types";
-import ping from "../commands/ping.js";
-import prefix from "../commands/prefix.js";
-import connect from "../games/connect/game.js";
-import { readjson } from "./jsonio.js";
+const Discord = require("discord.js");
+const { REST } = require("@discordjs/rest");
+const { Routes } = require("discord-api-types/v9");
+const ping = require("./ping");
+const connect = require("../games/connect/game");
+const { readjson } = require("../jsonio");
 /**
  * refreshes slash commands
  * @param {Discord.Client} client
  */
+
+const rest = new REST({ version: "9" }).setToken(process.env.TOKEN || process.argv[2]);
+
 async function refreshCommands(client) {
 	const commands = [
 		{
@@ -30,4 +33,4 @@ async function refreshCommands(client) {
 	}
 }
 
-export { ping, prefix, connect, refreshCommands };
+module.exports = { ping, connect, refreshCommands };

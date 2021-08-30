@@ -1,4 +1,5 @@
-import Discord from "discord.js";
+const Discord = require("discord.js");
+
 const players = {
 	EMPTY: 0,
 	RED: 1,
@@ -35,7 +36,7 @@ const template = {
  *
  * @param {Discord.Message} message
  */
-export default function connect(message) {
+function connect(message) {
 	let cat = "";
 	for (let y = 0; y < 7; ++y) {
 		for (let x = 0; x < 7; ++x) {
@@ -56,3 +57,5 @@ export default function connect(message) {
 		}
 	});
 }
+
+module.exports = { connect };

@@ -7,10 +7,6 @@
 		{
 			"name": "ping",
 			"desctiption": "Pong! Tells how long the bot takes to receive your messages."
-		},
-		{
-			"name": "prefix",
-			"desctiption": "Sets a new prefix."
 		}
 	]
 }

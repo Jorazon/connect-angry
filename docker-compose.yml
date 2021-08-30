@@ -4,8 +4,6 @@ services:
     connectangry:
         image: connect-angry
         container_name: connect-angry
-        volumes:
-            - connectangryvolume:/data
         environment:
             - TOKEN=${TOKEN}
         build:

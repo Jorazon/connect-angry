@@ -1,35 +1,8 @@
-import Discord from "discord.js";
-import { readjson, writejson } from "./jsonio.js";
-import { refreshCommands, ping, prefix, connect } from "../commands/commands.js";
+const { Client, Intents } = require("discord.js");
+const { readjson, writejson } = require("./jsonio.js");
+const { refreshCommands, ping, connect } = require("./commands/commands.js");
 
-const client = new Discord.Client();
-
-const optionsPath = "options.json";
-var options;
-
-/**
- * Load options from json file
- */
-function loadOptions() {
-	options = readjson(optionsPath);
-}
-/**
- * Save and reload options
- */
-function saveOptions() {
-	writejson(options, optionsPath);
-	loadOptions();
-}
-/**
- * Get guild prefix
- * @param {string} guildID
- * @returns {string} guild prefix or default if unset
- */
-function getPrefix(guildID) {
-	return options.guilds[guildID] || options.guilds.default;
-}
-
-loadOptions();
+const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 
 client.on("ready", () => {
 	console.log(`Logged in as ${client.user.tag}`);
@@ -64,16 +37,6 @@ client.on("message", (message) => {
 		case "ping":
 			{
 				ping(client, message);
-			}
-			break;
-		case "help":
-			{
-				help(message);
-			}
-			break;
-		case "prefix":
-			{
-				prefix(message, params, guildPrefix, getPrefix, options, saveOptions);
 			}
 			break;
 		case "connect":

@@ -9,8 +9,6 @@ RUN apk update && apk upgrade && apk add npm
 
 WORKDIR "/data"
 
-VOLUME [ "/data" ]
-
 COPY package*.json ./
 
 RUN npm i
