@@ -6,12 +6,23 @@ const Discord = require("discord.js");
  * @param {Discord.Interaction} interaction
  */
 function ping(client, interaction) {
-	interaction.reply("Pong!").then(async (pingMessage) => {
-		pingMessage.edit(
-			`Pong! Client: ${pingMessage.createdTimestamp - message.createdTimestamp}ms, API: ${
-				client.ws.ping
-			}ms`,
-		);
+	interaction.reply("Pinging...").then(() => {
+		interaction.fetchReply().then((reply) => {
+			const embed = new Discord.MessageEmbed();
+			embed.setFields([
+				{
+					name: "Client: ",
+					value: `${reply.createdTimestamp - interaction.createdTimestamp}ms`,
+					inline: true,
+				},
+				{
+					name: "API: ",
+					value: `${client.ws.ping}ms`,
+					inline: true,
+				},
+			]);
+			interaction.editReply({ content: "Pong!", embeds: [embed] });
+		});
 	});
 }
 

@@ -3,7 +3,7 @@ const { readjson, writejson } = require("./jsonio.js");
 const { refreshCommands, ping, connect } = require("./commands/commands.js");
 
 //get bot token from docker env variable TOKEN or node first parameter
-const token = process.env.TOKEN || process.argv[2];
+let token = process.env.TOKEN || process.argv[2];
 
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 
@@ -18,10 +18,7 @@ client.on("ready", () => {
 client.on("interactionCreate", async (interaction) => {
 	if (!interaction.isCommand()) return;
 
-	if (interaction.commandName === "ping") {
-		await interaction.reply("Pong!");
-	}
-	switch (params[0]) {
+	switch (interaction.commandName) {
 		case "ping":
 			{
 				ping(client, interaction);
@@ -36,6 +33,7 @@ client.on("interactionCreate", async (interaction) => {
 });
 
 //login
-client.login(token).catch(() => {
+client.login(token).catch((error) => {
 	console.log("Invalid bot token");
+	console.error(error);
 });
