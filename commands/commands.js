@@ -16,20 +16,14 @@ async function refreshCommands(client, token) {
 
 	const rest = new REST({ version: "9" }).setToken(token);
 
-	const commands = [
-		{
-			name: "ping",
-			description: "Replies with Pong!",
-		},
-	];
-	//const commands = readjson("./commands.json");
+	const commands = readjson("./commands/commands.json").commands;
 
 	try {
-		console.log("Started refreshing application (/) commands.");
+		console.log("Started refreshing application [/] commands.");
 
 		await rest.put(Routes.applicationGuildCommands(CLIENT_ID, GUILD_ID), { body: commands });
 
-		console.log("Successfully reloaded application (/) commands.");
+		console.log("Successfully reloaded application [/] commands.");
 	} catch (error) {
 		console.error(error);
 	}
