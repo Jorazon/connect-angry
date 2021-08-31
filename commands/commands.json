@@ -2,11 +2,11 @@
 	"commands": [
 		{
 			"name": "connect",
-			"desctiption": "Starts a game of angry connect."
+			"description": "Starts a game of angry connect."
 		},
 		{
 			"name": "ping",
-			"desctiption": "Pong! Tells how long the bot takes to receive your messages."
+			"description": "Pong! Allows you to flex your internet speeds to your friends."
 		}
 	]
 }
