@@ -3,7 +3,7 @@ const { REST } = require("@discordjs/rest");
 const { Routes } = require("discord-api-types/v9");
 const { readjson } = require("../jsonio");
 //commands-----------------------------------------------
-const { ping } = require("./ping");
+const { ping } = require("../commands/ping");
 const { connect } = require("../games/connect/game");
 //-------------------------------------------------------
 
