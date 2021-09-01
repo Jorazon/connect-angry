@@ -1,12 +1,14 @@
 const Discord = require("discord.js");
 const { REST } = require("@discordjs/rest");
 const { Routes } = require("discord-api-types/v9");
+const { readjson } = require("../jsonio");
+//commands-----------------------------------------------
 const { ping } = require("./ping");
 const { connect } = require("../games/connect/game");
-const { readjson } = require("../jsonio");
+//-------------------------------------------------------
 
 /**
- * refreshes slash commands
+ * Refreshes slash commands
  * @param {Discord.Client} client bot client
  * @param {string} token bot token
  */
@@ -29,4 +31,25 @@ async function refreshCommands(client, token) {
 	}
 }
 
-module.exports = { ping, connect, refreshCommands };
+/**
+ * Handle application commands
+ * @param {Discord.Interaction} interaction client interaction
+ */
+function handleCommands(interaction) {
+	if (!interaction.isCommand()) return;
+
+	switch (interaction.commandName) {
+		case "ping":
+			{
+				ping(client, interaction);
+			}
+			break;
+		case "connect":
+			{
+				connect(message);
+			}
+			break;
+	}
+}
+
+module.exports = { refreshCommands, handleCommands };
