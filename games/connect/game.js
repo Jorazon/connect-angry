@@ -1,4 +1,5 @@
 const Discord = require("discord.js");
+const { rand } = require("../../rand");
 
 const players = {
 	EMPTY: 0,
@@ -34,27 +35,44 @@ const template = {
 
 /**
  *
- * @param {Discord.Message} message
+ * @param {Discord.Interaction} interaction
  */
-function connect(message) {
-	let cat = "";
+function connect(interaction) {
+	let gameBoard = "";
 	for (let y = 0; y < 7; ++y) {
 		for (let x = 0; x < 7; ++x) {
-			switch (y) {
-				case 6:
-					cat += numbers[x + 1];
-					break;
-				default:
-					cat += emojis[(Math.random() * emojis.length) | 0];
-			}
+			if (y == 6) gameBoard += numbers[x + 1];
+			else gameBoard += emojis[rand(emojis.length)];
 		}
-		cat += "\n";
+		gameBoard += "\n";
 	}
 
-	message.channel.send(cat).then(async (testmessage) => {
-		for (let i = 1; i < 8; ++i) {
-			testmessage.react(numbers[i]);
-		}
+	var options = numbers
+		.slice()
+		.filter((v, i) => i >= 1 && i <= 7)
+		.map((emoji, i) => ({
+			label: `${i + 1}`,
+			value: `${i}_${interaction.id}`,
+			emoji: {
+				name: emoji,
+				id: null,
+			},
+		}));
+
+	var reply = {
+		content: `${emojis[rand(emojis.length)]}'s turn`,
+		embeds: [new Discord.MessageEmbed({ title: gameBoard })],
+		components: [
+			new Discord.MessageSelectMenu({
+				minValues: 1,
+				maxValues: 1,
+				options: options,
+			}).toJSON(),
+		],
+	};
+	console.log(reply);
+	interaction.reply(reply).catch((error) => {
+		console.error(error);
 	});
 }
 

@@ -6,7 +6,7 @@
 	"main": "main.js",
 	"exports": "./main.js",
 	"scripts": {
-		"start": "node main.js bottoken"
+		"start": "node main.js"
 	},
 	"dependencies": {
 		"@discordjs/rest": "^0.1.0-canary.0",
