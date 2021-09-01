@@ -1,9 +1,11 @@
 const { Client, Intents } = require("discord.js");
-const { readjson, writejson } = require("./jsonio.js");
+const dotenv = require("dotenv");
 const { refreshCommands, handleCommands } = require("./commands/commands.js");
 
+dotenv.config();
+
 //get bot token from docker env variable TOKEN or node first parameter
-let token = process.env.TOKEN || process.argv[2];
+let token = process.env.TOKEN;
 
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 
@@ -11,7 +13,7 @@ client.on("ready", () => {
 	console.log(`Logged in as ${client.user.tag}`);
 
 	//refresh slash commands if REFRESHCOMMANDS is set to "true" in docker-compose.yml
-	if (process.env.REFRESHCOMMANDS == "true" || process.argv[3] == "true") {
+	if (process.env.REFRESHCOMMANDS == "true") {
 		refreshCommands(client, token);
 	}
 });

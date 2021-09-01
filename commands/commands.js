@@ -46,7 +46,7 @@ function handleCommands(interaction) {
 			break;
 		case "connect":
 			{
-				connect(message);
+				connect(interaction);
 			}
 			break;
 	}
