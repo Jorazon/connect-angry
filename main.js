@@ -19,7 +19,9 @@ client.on("ready", () => {
 });
 
 client.on("interactionCreate", async (interaction) => {
-	handleCommands(interaction);
+	console.log(interaction);
+
+	handleCommands(client, interaction);
 });
 
 //login
