@@ -2,7 +2,11 @@
 	"commands": [
 		{
 			"name": "connect",
-			"description": "Starts a game of angry connect."
+			"description": "Starts a game of angry connect.",
+			"options": [
+				{ "name": "player1", "description": "Player 1", "type": 6, "required": true },
+				{ "name": "player2", "description": "Player 2", "type": 6, "required": true }
+			]
 		},
 		{
 			"name": "ping",
