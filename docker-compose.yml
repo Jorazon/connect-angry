@@ -4,6 +4,8 @@ services:
     connectangry:
         image: connect-angry
         container_name: connect-angry
+        user: node
+        init: true
         environment:
             - TOKEN=${TOKEN}
             - REFRESHCOMMANDS="true"
@@ -12,10 +14,14 @@ services:
             dockerfile: ./Dockerfile
     mysql:
         image: mysql:latest
+        container_name: database
         ports:
             - 8083:3306
         volumes:
-            - ./test-sql-2:/docker-entrypoint-initdb.d
+            - test-sql-2:/var/lib/mysql
         environment:
             MYSQL_ROOT_PASSWORD: pwd
             MYSQL_DATABASE: mysql
+
+volumes:
+    test-sql-2:
