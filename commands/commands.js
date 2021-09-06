@@ -33,22 +33,28 @@ async function refreshCommands(client, token) {
 
 /**
  * Handle application commands
- * @param {Discord.Interaction} interaction client interaction
+ * @param {Discord.Client} client
+ * @param {Discord.Interaction} interaction
  */
-function handleCommands(interaction) {
-	if (!interaction.isCommand()) return;
-
-	switch (interaction.commandName) {
-		case "ping":
-			{
-				ping(client, interaction);
-			}
-			break;
-		case "connect":
-			{
+function handleCommands(client, interaction) {
+	if (interaction.isCommand()) {
+		switch (interaction.commandName) {
+			case "ping":
+				{
+					ping(client, interaction);
+				}
+				break;
+			case "connect":
+				{
+					connect(interaction);
+				}
+				break;
+		}
+	} else if (interaction.isMessageComponent) {
+		switch (interaction.message.interaction.commandName) {
+			case "connect":
 				connect(interaction);
-			}
-			break;
+		}
 	}
 }
 
